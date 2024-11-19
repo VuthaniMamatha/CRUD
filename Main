@@ -1,0 +1,14 @@
+package com.pro.main;
+
+import com.pro.crud.Crud;
+
+public class Main {
+	public static void main(String[] args) {
+		Crud crud = new Crud();
+		crud.insert("Anu", "anu@gmail.com", 8946497, "KSR");
+		crud.update(2, "Anu", "anu@gmail.com", 956493390, "BTM");
+		crud.read(1);
+		crud.read(2);
+		crud.delete(1);
+	}
+}
