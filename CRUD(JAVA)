@@ -28,6 +28,25 @@ public class Crud {
         }
     }
 	
+	public void read() {
+		String query = "select*from user";
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				System.out.println("User ID: " + rs.getInt("id"));
+				System.out.println("Name: " + rs.getString("name"));
+				System.out.println("Email: " + rs.getString("email"));
+				System.out.println("Phone Number: " + rs.getLong("phoneno"));
+				System.out.println("Address: " + rs.getString("address"));
+				System.out.println("Registration Date: " + rs.getString("registrationdate"));
+				System.out.println();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	
 	public void read(int id) {
