@@ -1,0 +1,88 @@
+package com.pro.crud;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import com.pro.connect.MyConnection;
+
+public class Crud {
+	
+	Connection con = MyConnection.connect();
+	PreparedStatement pstmt=null;
+	
+	public void insert(String name, String email, long phoneno, String address) {
+        String query = "insert into user (name, email, phoneno, address) values(?, ?, ?, ?)";
+
+        try{
+        	pstmt = con.prepareStatement(query);
+            pstmt.setString(1, name);
+            pstmt.setString(2, email);
+            pstmt.setLong(3, phoneno);
+            pstmt.setString(4, address);
+
+            pstmt.executeUpdate();
+            System.out.println("Record added successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+	
+	
+	
+	public void read(int id) {
+        String query = "select*from user where id = ?";
+
+        try {
+        	pstmt = con.prepareStatement(query);
+            pstmt.setInt(1, id);
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                System.out.println("User ID: " + rs.getInt("id"));
+                System.out.println("Name: " + rs.getString("name"));
+                System.out.println("Email: " + rs.getString("email"));
+                System.out.println("Phone Number: " + rs.getLong("phoneno"));
+                System.out.println("Address: " + rs.getString("address"));
+                System.out.println("Registration Date: " + rs.getString("registrationdate"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+	
+	public void update(int id, String name, String email, long phoneno, String address) {
+		String query = "update user set name = ?, email = ?, phoneno = ?, address = ? where id = ?";
+
+		try {
+			
+			pstmt = con.prepareStatement(query);
+
+			pstmt.setString(1, name);
+			pstmt.setString(2, email);
+			pstmt.setLong(3, phoneno);
+			pstmt.setString(4, address);
+			pstmt.setInt(5, id);
+
+			int n = pstmt.executeUpdate();
+			System.out.println(n + " record(s) updated");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void delete(int user_id) {
+		String query = "delete from user where id = ?";
+
+		try{
+			PreparedStatement pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, user_id);
+
+			int n = pstmt.executeUpdate();
+			System.out.println(n + " record(s) deleted.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
